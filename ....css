@@ -1,0 +1,453 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #080808;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 90%;
+    max-width: 1100px;
+
+    padding: 15px 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(15px);
+
+    border: 1px solid #2a2a2a;
+    border-radius: 50px;
+
+    z-index: 1000;
+}
+
+nav h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+nav ul {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+}
+
+nav a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #ffffff;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+section {
+    min-height: 100vh;
+    padding: 140px 8%;
+    max-width: 1300px;
+    margin: auto;
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+#home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    background:
+        radial-gradient(
+            circle at 80% 30%,
+            #222 0%,
+            transparent 30%
+        );
+}
+
+#home h1 {
+    font-size: clamp(45px, 7vw, 85px);
+    line-height: 1.05;
+    margin-bottom: 25px;
+    letter-spacing: -3px;
+}
+
+#home h1 span {
+    color: #888;
+}
+
+#home p {
+    max-width: 650px;
+    color: #999;
+    font-size: 20px;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn {
+    display: inline-block;
+
+    margin-top: 30px;
+    padding: 13px 25px;
+
+    background: #ffffff;
+    color: #000000;
+
+    border-radius: 50px;
+
+    text-decoration: none;
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px #ffffff22;
+}
+
+
+/* =========================
+   SECTION TITLES
+========================= */
+
+h2.section-title {
+    font-size: 45px;
+    margin-bottom: 40px;
+    letter-spacing: -1px;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about {
+    max-width: 800px;
+}
+
+.about p {
+    color: #999;
+    font-size: 18px;
+}
+
+
+/* =========================
+   SKILLS
+========================= */
+
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.skill {
+    padding: 12px 20px;
+
+    background: #111;
+    border: 1px solid #292929;
+
+    border-radius: 50px;
+
+    color: #bbb;
+
+    transition: 0.3s;
+}
+
+.skill:hover {
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+}
+
+
+/* =========================
+   PROJECTS
+========================= */
+
+.projects {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+
+    gap: 25px;
+}
+
+.project {
+    position: relative;
+
+    padding: 30px;
+
+    min-height: 280px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: linear-gradient(
+        145deg,
+        #151515,
+        #0c0c0c
+    );
+
+    border: 1px solid #292929;
+    border-radius: 20px;
+
+    transition: 0.4s;
+}
+
+.project:hover {
+    transform: translateY(-8px);
+    border-color: #555;
+}
+
+.project h3 {
+    font-size: 25px;
+    margin-bottom: 15px;
+}
+
+.project p {
+    color: #888;
+}
+
+.project .btn {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact p {
+    color: #999;
+    margin-bottom: 12px;
+}
+
+.contact a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.contact a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    padding: 30px;
+    text-align: center;
+
+    background: #050505;
+
+    color: #555;
+
+    border-top: 1px solid #1a1a1a;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    nav {
+        width: 94%;
+        padding: 12px 18px;
+
+        flex-direction: column;
+        gap: 10px;
+
+        border-radius: 20px;
+    }
+
+    nav ul {
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    section {
+        padding: 120px 6% 70px;
+    }
+
+    #home h1 {
+        font-size: 48px;
+        letter-spacing: -2px;
+    }
+
+    #home p {
+        font-size: 17px;
+    }
+
+    h2.section-title {
+        font-size: 35px;
+    }
+
+    .projects {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   HOME SECTION
+========================= */
+
+#home {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+
+    padding: 120px 8%;
+}
+
+.home-content {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 70px;
+}
+
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+.home-text {
+    flex: 1;
+}
+
+.home-text h1 {
+    font-size: 55px;
+    line-height: 1.15;
+    margin-bottom: 25px;
+}
+
+.home-text h1 span {
+    display: block;
+    color: #ffffff;
+}
+
+.home-text p {
+    max-width: 600px;
+
+    color: #999999;
+
+    font-size: 20px;
+    line-height: 1.7;
+}
+
+
+/* =========================
+   PROFILE IMAGE
+========================= */
+
+.home-image {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-image {
+    width: 350px;
+    height: 350px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 5px solid #292929;
+
+    box-shadow:
+        0 0 40px rgba(255, 255, 255, 0.08);
+
+    transition: 0.4s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.04);
+
+    box-shadow:
+        0 0 60px rgba(255, 255, 255, 0.15);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    #home {
+        padding: 130px 6% 70px;
+    }
+
+    .home-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .home-text h1 {
+        font-size: 42px;
+    }
+
+    .home-text p {
+        font-size: 17px;
+    }
+
+    .profile-image {
+        width: 250px;
+        height: 250px;
+    }
+}

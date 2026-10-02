@@ -1,0 +1,1352 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Sora:wght@400;600;700;800&display=swap");
+
+
+/* ==========================================================================
+   1. DESIGN TOKENS  ·  "Bronze Noir"
+   Change colours here and the whole site follows.
+   ========================================================================== */
+
+:root {
+    color-scheme: dark;
+
+    /* Colour */
+    --bg:            #070605;   /* black */
+    --ink:           #f3ead7;   /* cream */   /* headings (moonlight) */
+    --ink-soft:      #d6cdb9;   /* body text, quote */
+    --muted:         #9a9484;   /* secondary text */
+    --accent:        #8a5a24;   /* buttons, fills (bronze) */
+    --accent-dark:   #6b4318;
+    --accent-text:   #e0b072;   /* accent used as text on dark (labels, links) */
+    --gold:          #d4a05a;   /* bright gold */
+    --cream:         #f3ead7;
+    --accent-tint:   rgba(138, 90, 36, 0.18);
+    --accent-line:   rgba(200, 150, 80, 0.55);
+    --line:          rgba(243, 234, 215, 0.12);
+    --on-dark:       #f6efe0;
+    --on-dark-muted: #9a9484;
+
+    /* Glass */
+    --glass-bg:      rgba(243, 234, 215, 0.05);
+    --glass-bg-strong: rgba(243, 234, 215, 0.10);
+    --glass-border:  rgba(243, 234, 215, 0.13);
+    --glass-shadow:  0 18px 44px -24px rgba(0, 0, 0, 0.75);
+    --glass-blur:    blur(18px) saturate(160%);
+
+    /* Typography */
+    --font-display: "Sora", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-body:    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    --text-xs:   0.75rem;
+    --text-sm:   0.875rem;
+    --text-base: 1rem;
+    --text-md:   1.125rem;
+    --text-lg:   clamp(1.1rem, 1.5vw, 1.25rem);
+    --text-h3:   clamp(1.4rem, 2.4vw, 1.9rem);
+    --text-h2:   clamp(2.25rem, 5vw, 4rem);
+    --text-h1:   clamp(2.75rem, 7.2vw, 5.75rem);
+
+    /* Layout */
+    --max-width: 1300px;
+    --gutter:    6%;
+    --nav-max:   1100px;
+
+    /* Shape & motion */
+    --radius-card: 28px;
+    --radius-md:   20px;
+    --radius-pill: 999px;
+    --ease:        cubic-bezier(0.22, 0.61, 0.36, 1);
+    --speed:       0.3s;
+}
+
+
+/* ==========================================================================
+   2. RESET & BASE
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    background: var(--bg);
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Aurora behind the whole page.
+   A fixed pseudo-element is smoother on phones than background-attachment: fixed. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(56rem 38rem at 92% 0%,   rgba(138, 90, 36, 0.42), transparent 62%),
+        radial-gradient(44rem 38rem at 100% 55%, rgba(212, 160, 90, 0.16), transparent 62%),
+        radial-gradient(40rem 30rem at 0% 35%,   rgba(243, 234, 215, 0.06), transparent 62%),
+        radial-gradient(60rem 40rem at 4% 104%,  rgba(138, 90, 36, 0.30), transparent 62%);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img,
+svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+    color: inherit;
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--font-display);
+}
+
+::selection {
+    background: var(--gold);
+    color: #000000;
+}
+
+
+/* ==========================================================================
+   3. ACCESSIBILITY HELPERS
+   ========================================================================== */
+
+:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Optional: <a class="skip-link" href="#home">Skip to content</a> first in <body> */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    z-index: 2000;
+
+    padding: 0.75rem 1.25rem;
+
+    background: var(--gold);
+    color: #000000;
+
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+
+
+/* ==========================================================================
+   4. GLASS SURFACES
+   One shared look: translucent white, thin light border, soft blur.
+   ========================================================================== */
+
+.eyebrow,
+.badge,
+.quote,
+.info-card,
+.skill,
+.project,
+.education-item,
+.certificate,
+.back-arrow {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+/* Browsers without backdrop-filter get a more solid card so text stays readable */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+
+    .eyebrow,
+    .badge,
+    .quote,
+    .info-card,
+    .skill,
+    .project,
+    .education-item,
+    .certificate,
+    .back-arrow,
+    nav {
+        background: #15110d;
+    }
+}
+
+
+/* ==========================================================================
+   5. NAVIGATION
+   ========================================================================== */
+
+nav {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+
+    width: 90%;
+    max-width: var(--nav-max);
+    padding: 0.8rem 1.6rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+
+    background: rgba(12, 9, 6, 0.70);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-pill);
+    box-shadow: 0 14px 40px -20px rgba(0, 0, 0, 0.8);
+}
+
+nav h2 {
+    color: var(--ink);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+nav a {
+    position: relative;
+
+    color: var(--muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+
+    transition: color var(--speed) var(--ease);
+}
+
+nav a:hover,
+nav a:focus-visible,
+nav a[aria-current="page"] {
+    color: var(--ink);
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+
+    width: 0;
+    height: 2px;
+
+    background: linear-gradient(90deg, var(--cream), var(--gold));
+    border-radius: 2px;
+
+    transition: width var(--speed) var(--ease);
+}
+
+nav a:hover::after,
+nav a:focus-visible::after,
+nav a[aria-current="page"]::after {
+    width: 100%;
+}
+
+
+/* ==========================================================================
+   6. LAYOUT & SECTIONS
+   ========================================================================== */
+
+section {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+
+    /* Top padding clears the fixed navigation */
+    padding: 9rem var(--gutter) 5.5rem;
+}
+
+
+/* ==========================================================================
+   7. HOME (HERO)
+   Suggested HTML inside .home-text, in this order:
+     <p class="eyebrow">Open to collaborations</p>
+     <h1>Your Name <span>Surname</span></h1>
+     <ul class="hero-roles"><li>Role</li><li>Role</li></ul>
+     <blockquote class="quote">"Quote" <cite>Author</cite></blockquote>
+     <div class="btn-row"> ...buttons... </div>
+   And the info cards below: <div class="info-cards"> ... </div>
+   ========================================================================== */
+
+#home {
+    min-height: 100vh;
+    min-height: 100svh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding-top: 9.5rem;
+}
+
+.home-content {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    align-items: center;
+    gap: 4rem;
+}
+
+.home-text {
+    max-width: 860px;
+}
+
+/* Status badge with a glowing dot, e.g. "Open to collaborations" */
+.eyebrow,
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+
+    margin-bottom: 1.6rem;
+    padding: 0.55rem 1.1rem;
+
+    border-radius: var(--radius-pill);
+    box-shadow: none;
+
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.eyebrow::before,
+.badge::before {
+    content: "";
+
+    width: 8px;
+    height: 8px;
+
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(212, 160, 90, 0.18), 0 0 14px 2px rgba(212, 160, 90, 0.7);
+}
+
+.home-text h1 {
+    margin-bottom: 1.6rem;
+
+    color: var(--ink);
+    font-size: var(--text-h1);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+}
+
+/* The surname (or any highlighted part) gets the aurora gradient */
+.home-text h1 span,
+.gradient-text {
+    background: linear-gradient(90deg, #f3ead7 0%, #ecd9b4 30%, #d4a05a 66%, #9a6a2c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.home-text p {
+    max-width: 40rem;
+
+    color: var(--muted);
+    font-size: var(--text-md);
+    line-height: 1.75;
+}
+
+/* Role line: items separated by a thin bar */
+.hero-roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0;
+
+    margin-bottom: 2rem;
+
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.hero-roles li {
+    display: inline-flex;
+    align-items: center;
+
+    color: var(--gold);
+}
+
+.hero-roles li:first-child {
+    color: var(--ink);
+}
+
+.hero-roles li:not(:last-child)::after {
+    content: "";
+
+    width: 2px;
+    height: 1.1em;
+
+    margin: 0 0.9rem;
+
+    background: rgba(243, 234, 215, 0.28);
+    border-radius: 2px;
+}
+
+/* Quote card */
+.quote {
+    max-width: 46rem;
+    margin-bottom: 2rem;
+    padding: 1.3rem 1.75rem;
+
+    border-color: var(--accent-line);
+    border-radius: var(--radius-md);
+    box-shadow: none;
+
+    color: var(--ink-soft);
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.7vw, 1.2rem);
+    font-style: italic;
+    line-height: 1.55;
+}
+
+.quote cite {
+    display: block;
+    margin-top: 0.6rem;
+
+    color: var(--gold);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-style: normal;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+/* Info cards: small facts under the hero text */
+.info-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+
+    margin-top: 3rem;
+}
+
+.info-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    padding: 1.3rem 1.3rem 1.4rem;
+
+    border-radius: var(--radius-card);
+}
+
+.info-card span {
+    color: var(--accent-text);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.info-card strong {
+    color: var(--ink);
+    font-size: var(--text-base);
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+/* Profile image in a glowing frame */
+.home-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-image {
+    width: clamp(240px, 28vw, 380px);
+    aspect-ratio: 4 / 5;
+    height: auto;
+
+    object-fit: cover;
+
+    border: 10px solid rgba(243, 234, 215, 0.07);
+    border-radius: 40px;
+
+    filter: saturate(110%) contrast(104%);
+    box-shadow:
+        0 0 0 1px rgba(243, 234, 215, 0.18),
+        0 0 70px -10px rgba(138, 90, 36, 0.60),
+        0 34px 60px -30px rgba(0, 0, 0, 0.8);
+
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+
+
+/* ==========================================================================
+   8. BUTTONS
+   .btn         = main action (filled violet)
+   .btn-ghost   = quiet action (glass)
+   .btn-outline = secondary action (violet outline)
+   Put them in <div class="btn-row"> to line them up.
+   ========================================================================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+
+    margin-top: 2rem;
+    padding: 1rem 1.9rem;
+
+    background: linear-gradient(135deg, var(--accent) 0%, #b27a35 100%);
+    color: var(--on-dark);
+
+    border: 1px solid rgba(230, 190, 130, 0.55);
+    border-radius: var(--radius-pill);
+    box-shadow: 0 14px 34px -12px rgba(138, 90, 36, 0.75);
+
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    transition:
+        background var(--speed) var(--ease),
+        color var(--speed) var(--ease),
+        border-color var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease),
+        transform var(--speed) var(--ease);
+}
+
+.btn svg {
+    width: 1.1em;
+    height: 1.1em;
+}
+
+.btn-ghost {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+
+    color: var(--ink-soft);
+
+    border-color: var(--glass-border);
+    box-shadow: none;
+}
+
+.btn-outline {
+    background: var(--accent-tint);
+    color: var(--accent-text);
+
+    border-color: var(--accent-line);
+    box-shadow: none;
+}
+
+.btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    margin-top: 2rem;
+}
+
+.btn-row .btn {
+    margin-top: 0;
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+
+/* ==========================================================================
+   9. SECTION HEADER
+   ========================================================================== */
+
+.section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.75rem;
+
+    margin-bottom: 3.5rem;
+    padding-bottom: 1.25rem;
+
+    border-bottom: 1px solid var(--line);
+}
+
+.section-number {
+    color: var(--gold);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+}
+
+h2.section-title {
+    color: var(--ink);
+    font-size: var(--text-h2);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+}
+
+
+/* ==========================================================================
+   10. ABOUT
+   ========================================================================== */
+
+.about {
+    max-width: 900px;
+}
+
+.about p {
+    max-width: 44rem;   /* keeps lines under ~75 characters */
+    margin-bottom: 1.6rem;
+
+    color: var(--ink-soft);
+    font-size: var(--text-lg);
+    line-height: 1.85;
+}
+
+
+/* ==========================================================================
+   11. SKILLS
+   ========================================================================== */
+
+.skills {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.skill {
+    min-height: 120px;
+
+    display: flex;
+    align-items: flex-end;
+
+    padding: 1.4rem;
+
+    border-radius: var(--radius-md);
+    box-shadow: none;
+
+    color: var(--ink);
+    font-size: var(--text-base);
+    font-weight: 500;
+
+    transition:
+        background var(--speed) var(--ease),
+        border-color var(--speed) var(--ease),
+        transform var(--speed) var(--ease);
+}
+
+
+/* ==========================================================================
+   12. PROJECTS
+   ========================================================================== */
+
+.projects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.project {
+    min-height: 340px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 2.2rem;
+
+    border-radius: var(--radius-card);
+
+    transition:
+        background var(--speed) var(--ease),
+        border-color var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease),
+        transform var(--speed) var(--ease);
+}
+
+/* Title pushes text and button to the bottom of the card */
+.project h3 {
+    margin-top: auto;
+    margin-bottom: 0.8rem;
+
+    color: var(--ink);
+    font-size: var(--text-h3);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+}
+
+.project p {
+    max-width: 32rem;
+
+    color: var(--muted);
+    font-size: var(--text-base);
+    line-height: 1.7;
+}
+
+.project .btn {
+    align-self: flex-start;
+    margin-top: 1.6rem;
+}
+
+
+/* ==========================================================================
+   13. EDUCATION
+   ========================================================================== */
+
+.education-item {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 2.5rem;
+
+    margin-bottom: 1rem;
+    padding: 1.9rem 2.2rem;
+
+    border-radius: var(--radius-card);
+    box-shadow: none;
+}
+
+.education-year {
+    color: var(--gold);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+}
+
+.education-item h3 {
+    margin-bottom: 0.5rem;
+
+    color: var(--ink);
+    font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+
+.education-item p {
+    color: var(--muted);
+    font-size: var(--text-base);
+}
+
+
+/* ==========================================================================
+   14. CERTIFICATES
+   ========================================================================== */
+
+.certificate {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+
+    margin-bottom: 0.85rem;
+    padding: 1.3rem 1.75rem;
+
+    border-radius: var(--radius-md);
+    box-shadow: none;
+}
+
+.certificate-number {
+    color: var(--gold);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.14em;
+}
+
+.certificate h3 {
+    margin-bottom: 0.25rem;
+
+    color: var(--ink);
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.certificate p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+}
+
+.certificate a {
+    padding: 0.55rem 1.1rem;
+
+    background: var(--accent-tint);
+    color: var(--accent-text);
+
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius-pill);
+
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    transition:
+        background var(--speed) var(--ease),
+        color var(--speed) var(--ease);
+}
+
+
+/* ==========================================================================
+   15. CONTACT & FORM
+   ========================================================================== */
+
+.contact {
+    max-width: 900px;
+}
+
+.contact p {
+    margin-bottom: 1rem;
+
+    color: var(--ink-soft);
+    font-size: var(--text-lg);
+}
+
+.contact a {
+    color: var(--gold);
+
+    border-bottom: 1px solid rgba(212, 160, 90, 0.45);
+
+    transition: border-color var(--speed) var(--ease);
+}
+
+.contact-form {
+    max-width: 700px;
+    margin-top: 3rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.contact-form label {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 1rem 1.25rem;
+
+    background: rgba(243, 234, 215, 0.06);
+
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+
+    font-size: var(--text-base);
+
+    transition:
+        border-color var(--speed) var(--ease),
+        box-shadow var(--speed) var(--ease),
+        background var(--speed) var(--ease);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: var(--muted);
+    opacity: 0.85;
+}
+
+.contact-form textarea {
+    min-height: 160px;
+    resize: vertical;
+}
+
+.contact-form input:focus-visible,
+.contact-form textarea:focus-visible {
+    outline: 2px solid transparent;   /* still visible in forced-colours mode */
+    background: rgba(243, 234, 215, 0.10);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 4px rgba(212, 160, 90, 0.18);
+}
+
+.contact-form input:user-invalid,
+.contact-form textarea:user-invalid {
+    border-color: #ff6b81;
+}
+
+.contact-form button {
+    align-self: flex-start;
+}
+
+
+/* ==========================================================================
+   16. BACK ARROW
+   ========================================================================== */
+
+.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 46px;
+    height: 46px;
+
+    margin-bottom: 2.5rem;
+
+    border-radius: 50%;
+    box-shadow: none;
+
+    color: var(--ink);
+    font-size: 1.25rem;
+
+    transition:
+        background var(--speed) var(--ease),
+        color var(--speed) var(--ease),
+        border-color var(--speed) var(--ease),
+        transform var(--speed) var(--ease);
+}
+
+
+/* ==========================================================================
+   17. FOOTER
+   ========================================================================== */
+
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+
+    padding: 1.9rem var(--gutter);
+
+    background: #000000;
+    color: var(--on-dark-muted);
+
+    border-top: 1px solid var(--line);
+
+    font-size: var(--text-xs);
+}
+
+
+/* ==========================================================================
+   18. HOVER STATES
+   Only on devices with a real pointer, so phones don't get "stuck" hovers.
+   ========================================================================== */
+
+@media (hover: hover) {
+
+    .profile-image:hover {
+        transform: translateY(-6px);
+        box-shadow:
+            0 0 0 1px rgba(243, 234, 215, 0.25),
+            0 0 90px -8px rgba(212, 160, 90, 0.5),
+            0 44px 70px -32px rgba(0, 0, 0, 0.85);
+    }
+
+    .btn:hover {
+        background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
+        border-color: var(--gold);
+        box-shadow: 0 16px 40px -10px rgba(212, 160, 90, 0.45);
+        transform: translateY(-2px);
+    }
+
+    .btn-ghost:hover {
+        background: var(--glass-bg-strong);
+        color: var(--ink);
+        border-color: var(--glass-border);
+    }
+
+    .btn-outline:hover {
+        background: var(--accent);
+        color: var(--on-dark);
+        border-color: var(--accent);
+    }
+
+    .skill:hover {
+        background: var(--glass-bg-strong);
+        border-color: rgba(212, 160, 90, 0.5);
+        transform: translateY(-4px);
+    }
+
+    .project:hover {
+        background: var(--glass-bg-strong);
+        border-color: var(--accent-line);
+        box-shadow: 0 30px 60px -28px rgba(138, 90, 36, 0.6);
+        transform: translateY(-4px);
+    }
+
+    .certificate a:hover {
+        background: var(--gold);
+        color: #000000;
+    }
+
+    .contact a:hover {
+        border-color: var(--gold);
+    }
+
+    .back-arrow:hover {
+        background: var(--accent);
+        color: var(--on-dark);
+        border-color: var(--accent);
+        transform: translateX(-4px);
+    }
+}
+
+/* Keyboard users get the same card highlight as mouse users */
+.project:focus-within {
+    background: var(--glass-bg-strong);
+    border-color: var(--accent-line);
+}
+
+
+/* ==========================================================================
+   19. MOTION
+   One entrance on page load (the hero). Nothing else animates by itself.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+
+    @keyframes rise-in {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .home-text {
+        animation: rise-in 0.8s var(--ease) both;
+    }
+
+    .home-image {
+        animation: rise-in 0.8s var(--ease) 0.15s both;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+
+/* ==========================================================================
+   20. RESPONSIVE
+   ========================================================================== */
+
+/* ---- Tablet ---- */
+@media (max-width: 900px) {
+
+    .home-content {
+        grid-template-columns: 1fr;
+        gap: 3.5rem;
+    }
+
+    .home-image {
+        justify-content: flex-start;
+    }
+
+    .info-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .skills {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .projects {
+        grid-template-columns: 1fr;
+    }
+
+    nav ul {
+        gap: 1.4rem;
+    }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 700px) {
+
+    nav {
+        padding: 0.85rem 1.25rem;
+
+        flex-direction: column;
+        gap: 0.7rem;
+
+        border-radius: 28px;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem 1.1rem;
+    }
+
+    nav a {
+        font-size: var(--text-xs);
+    }
+
+    section {
+        padding: 9.5rem 6% 4.5rem;
+    }
+
+    #home {
+        padding-top: 11rem;
+    }
+
+    .hero-roles li:not(:last-child)::after {
+        margin: 0 0.65rem;
+    }
+
+    .quote {
+        padding: 1.1rem 1.25rem;
+    }
+
+    .btn-row {
+        gap: 0.75rem;
+    }
+
+    .home-image {
+        justify-content: center;
+    }
+
+    .profile-image {
+        width: 270px;
+        border-width: 8px;
+        border-radius: 32px;
+    }
+
+    .section-header {
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .skill {
+        min-height: 100px;
+        padding: 1.1rem;
+    }
+
+    .project {
+        padding: 1.75rem;
+    }
+
+    .education-item {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+
+        padding: 1.5rem;
+    }
+
+    .certificate {
+        grid-template-columns: 50px 1fr;
+        gap: 0.9rem;
+
+        padding: 1.2rem 1.25rem;
+    }
+
+    .certificate a {
+        grid-column: 2;
+        justify-self: start;
+    }
+
+    footer {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* ---- Small phones ---- */
+@media (max-width: 450px) {
+
+    nav h2 {
+        font-size: 1.05rem;
+    }
+
+    .info-cards,
+    .skills {
+        grid-template-columns: 1fr;
+    }
+
+    .project {
+        min-height: 300px;
+    }
+
+    .btn-row .btn {
+        width: 100%;
+    }
+
+    .profile-image {
+        width: 240px;
+    }
+}
+
+
+/* ==========================================================================
+   21. PRINT
+   Flips the palette back to ink-on-paper so printouts stay readable.
+   ========================================================================== */
+
+@media print {
+
+    :root {
+        --ink:         #0a0a0a;
+        --ink-soft:    #2a2a2e;
+        --muted:       #55555c;
+        --accent-text: #7a4e18;
+        --gold:        #8a5a24;
+        --line:        rgba(18, 20, 43, 0.2);
+    }
+
+    body::before,
+    nav,
+    .back-arrow,
+    .contact-form {
+        display: none;
+    }
+
+    html,
+    body {
+        background: #fff;
+    }
+
+    section {
+        min-height: 0;
+        padding: 2rem 0;
+        break-inside: avoid-page;
+    }
+
+    .eyebrow,
+    .badge,
+    .quote,
+    .info-card,
+    .skill,
+    .project,
+    .education-item,
+    .certificate {
+        background: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        box-shadow: none;
+    }
+}
+
+
+/* ==========================================================================
+   22. EXTRA HERO BUTTONS
+   ========================================================================== */
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 1px solid rgba(243, 234, 215, 0.35);
+    border-radius: 8px;
+    color: var(--cream);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.button:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #000000;
+}
+
+.cv-button {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--cream);
+}
+
+.cv-button:hover {
+    background: transparent;
+    border-color: var(--gold);
+    color: var(--gold);
+}
+.view-all-projects {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
